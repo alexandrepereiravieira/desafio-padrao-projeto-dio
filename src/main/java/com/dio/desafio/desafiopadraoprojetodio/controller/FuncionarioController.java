@@ -14,7 +14,7 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
 
-    private FuncionarioRepository funcionarioRepository;
+    //private FuncionarioRepository funcionarioRepository;
 
     @PostMapping
     public ResponseEntity<Funcionario> inserirFuncionario(@RequestBody Funcionario funcionario){
@@ -30,12 +30,9 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionarioService.buscarPorId(id));
     }
     @PutMapping
-    public ResponseEntity<Funcionario> atualizar(@PathVariable Long id, @RequestBody Funcionario funcionario){
-        if(funcionarioRepository.existsById(id)) {
-            funcionarioService.atualizar(id, funcionario);
-            return ResponseEntity.ok(funcionario);
-        }
-        return (ResponseEntity<Funcionario>) ResponseEntity.notFound();
+    public ResponseEntity<Funcionario> atualizar(@RequestBody Funcionario funcionario){
+        funcionarioService.atualizar(funcionario);
+        return ResponseEntity.ok(funcionario);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Funcionario> deletar (@PathVariable Long id){

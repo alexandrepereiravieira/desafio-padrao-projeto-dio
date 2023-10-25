@@ -2,6 +2,7 @@ package com.dio.desafio.desafiopadraoprojetodio.service;
 
 import com.dio.desafio.desafiopadraoprojetodio.model.Funcionario;
 import com.dio.desafio.desafiopadraoprojetodio.repository.FuncionarioRepository;
+import com.dio.desafio.desafiopadraoprojetodio.service.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,9 @@ public class FuncionarioService {
     private FuncionarioRepository funcionarioRepository;
 
     public Funcionario buscarPorId(Long id){
-        return funcionarioRepository.findById(id).get();
+
+        return funcionarioRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Id not found " + id));
     }
 
     public Iterable<Funcionario> buscarTodos(){
@@ -24,8 +27,9 @@ public class FuncionarioService {
     public void inserir(Funcionario funcionario){
         funcionarioRepository.save(funcionario);
     }
-    public void atualizar (Long id, Funcionario funcionario){
-        Optional<Funcionario> funcionarioOpitional = funcionarioRepository.findById(id);
+    public void atualizar (Funcionario funcionario){
+        Optional<Funcionario> funcionarioOpitional = Optional.ofNullable(funcionarioRepository.findById(funcionario.getMatricula()).orElseThrow(
+                () -> new EntityNotFoundException("Id not found " + funcionario.getMatricula())));
         if (funcionarioOpitional.isPresent()){
             funcionarioRepository.save(funcionario);
         }
