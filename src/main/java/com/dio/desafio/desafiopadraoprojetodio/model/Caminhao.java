@@ -13,4 +13,15 @@ public class Caminhao {
 
     private String placa;
 
+    public Long getID() {
+        return ID;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
 }
